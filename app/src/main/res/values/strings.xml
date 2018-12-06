@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Bitcoin Marketplace</string>
+    <string name="unexpected_error">An error has occurred</string>
+</resources>
