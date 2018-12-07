@@ -3,12 +3,12 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/chart_item_height"
         android:padding="8dp">
 
     <com.example.danielhorowitz.bitcoin.presentation.common.ChartView
             android:id="@+id/chartView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"/>
 
 </android.support.v7.widget.CardView>

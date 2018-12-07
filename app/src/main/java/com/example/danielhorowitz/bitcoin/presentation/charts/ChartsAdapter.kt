@@ -27,7 +27,7 @@ class ChartsAdapter(
         private val chartView = itemView.findViewById<ChartView>(R.id.chartView)
 
         fun bind(chart: Chart, itemClicked: (Chart) -> Unit) {
-            chartView.bind(chart)
+            chartView.bind(chart,true)
             itemView.onClick { itemClicked(chart) }
         }
     }

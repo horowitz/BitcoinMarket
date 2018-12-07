@@ -4,10 +4,12 @@ import android.app.Activity
 import android.os.Bundle
 import com.example.danielhorowitz.bitcoin.R
 import com.example.danielhorowitz.bitcoin.domain.model.Chart
+import com.example.danielhorowitz.bitcoin.presentation.common.EqualSpacingItemDecoration
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_charts.*
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.design.indefiniteSnackbar
+import org.jetbrains.anko.dimen
 import javax.inject.Inject
 
 class ChartsActivity : Activity(), ChartsContract.View {
@@ -40,16 +42,19 @@ class ChartsActivity : Activity(), ChartsContract.View {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
         setContentView(R.layout.activity_charts)
-
+        setupRecycler()
         presenter.fetchPopularCharts()
-
-        adapter = ChartsAdapter(charts) { presenter.onChartClicked(it) }
-        recyclerView.adapter = adapter
-        swipeRefreshLayout.setOnRefreshListener { presenter.fetchPopularCharts() }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         presenter.destroy()
+    }
+
+    private fun setupRecycler() {
+        adapter = ChartsAdapter(charts) { presenter.onChartClicked(it) }
+        recyclerView.adapter = adapter
+        recyclerView.addItemDecoration(EqualSpacingItemDecoration(dimen(R.dimen.default_spacing)))
+        swipeRefreshLayout.setOnRefreshListener { presenter.fetchPopularCharts() }
     }
 }

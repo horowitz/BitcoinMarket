@@ -6,7 +6,7 @@ class BlockchainConfig {
 
     companion object {
         const val BASE_URL = "https://api.blockchain.info"
-        const val CHART_ENDPOINT = "/charts/$CHART_NAME"
+        const val CHART_ENDPOINT = "/charts/{$CHART_NAME}"
     }
 
     object Params {
