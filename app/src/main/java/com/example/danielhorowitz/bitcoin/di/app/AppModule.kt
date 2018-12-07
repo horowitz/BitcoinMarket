@@ -2,6 +2,7 @@ package com.example.danielhorowitz.bitcoin.di.app
 
 import android.content.Context
 import com.example.danielhorowitz.bitcoin.BitcoinApplication
+import com.example.danielhorowitz.bitcoin.di.charts.ChartsSubComponent
 import dagger.Module
 import dagger.Provides
 import io.reactivex.Scheduler
@@ -9,12 +10,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Named
 
-
-/**
- * Created by danielhorowitz on 8/9/17.
- */
 @Module(
-
+    subcomponents = [
+        (ChartsSubComponent::class)
+    ]
 )
 class AppModule {
 

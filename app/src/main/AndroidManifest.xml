@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.danielhorowitz.bitcoin.presentation.details.PlaceDetailsActivity"/>
+        <activity android:name=".presentation.charts.ChartsActivity"/>
     </application>
 
 </manifest>

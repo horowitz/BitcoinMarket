@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitAdapter {
-        val googlePlacesRetrofit: Retrofit
+        val blockchainRetrofit: Retrofit
 
         init {
             val interceptor = HttpLoggingInterceptor()
@@ -18,7 +18,7 @@ object RetrofitAdapter {
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .build()
 
-            this.googlePlacesRetrofit = Retrofit.Builder()
+            this.blockchainRetrofit = Retrofit.Builder()
                 .baseUrl(BlockchainConfig.BASE_URL)
                 .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
