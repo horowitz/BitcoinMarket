@@ -19,7 +19,7 @@ object RetrofitAdapter {
                 .build()
 
             this.googlePlacesRetrofit = Retrofit.Builder()
-                .baseUrl(NetworkConfig.BASE_URL)
+                .baseUrl(BlockchainConfig.BASE_URL)
                 .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
