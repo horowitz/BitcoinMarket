@@ -19,7 +19,6 @@ class BitcoinApplication : Application(), HasActivityInjector {
         initDagger()
     }
 
-
     private fun initDagger() {
         DaggerAppComponent
             .builder()
