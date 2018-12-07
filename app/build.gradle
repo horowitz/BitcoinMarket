@@ -1,7 +1,5 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
@@ -55,9 +53,6 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxkotlin:2.2.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
 
-    //Permissions
-    implementation 'com.karumi:dexter:4.2.0'
-
     //Anko
     implementation "org.jetbrains.anko:anko:0.10.8"
     implementation "org.jetbrains.anko:anko-commons:0.10.8"
@@ -66,9 +61,12 @@ dependencies {
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    //Graphs
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0-alpha'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     testImplementation 'org.mockito:mockito-core:2.23.0'
-    testImplementation 'com.nhaarman:mockito-kotlin:1.5.0'
+    testImplementation 'com.nhaarman:mockito-kotlin:1.6.0'
 }
