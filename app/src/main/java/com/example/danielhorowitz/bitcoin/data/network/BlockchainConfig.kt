@@ -1,10 +1,12 @@
 package com.example.danielhorowitz.bitcoin.data.network
 
+import com.example.danielhorowitz.bitcoin.data.network.BlockchainConfig.Path.CHART_NAME
+
 class BlockchainConfig {
 
     companion object {
         const val BASE_URL = "https://api.blockchain.info"
-        const val CHART_ENDPOINT = "/charts/{name}"
+        const val CHART_ENDPOINT = "/charts/$CHART_NAME"
     }
 
     object Params {
@@ -13,10 +15,14 @@ class BlockchainConfig {
         const val FORMAT = "format"
 
         object Values {
-            const val WEEK = "week"
+            const val WEEK = "weeks"
             const val HOURS = "hours"
             const val JSON_FORMAT = "json"
         }
+    }
+
+    object Path {
+        const val CHART_NAME = "name"
     }
 
     object Charts {

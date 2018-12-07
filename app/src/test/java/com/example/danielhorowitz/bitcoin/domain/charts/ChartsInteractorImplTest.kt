@@ -36,17 +36,17 @@ class ChartsInteractorImplTest {
         givenChartMappedCorrectly()
         givenChartRetrieved()
 
-        interactor.fetchChart("timespan", "rollingAvg")
+        interactor.fetchChart("name", "timespan", "rollingAvg")
             .test()
             .assertNoErrors()
             .assertComplete()
     }
 
     private fun givenChartRetrieved() {
-        whenever(repository.fetchChart(any(), any())).thenReturn(Single.just(chartDTO))
+        whenever(repository.fetchChart(any(), any(), any())).thenReturn(Single.just(chartDTO))
     }
 
-    private fun givenChartMappedCorrectly(){
+    private fun givenChartMappedCorrectly() {
         whenever(chartMapper.mapBlockchainChart(any())).thenReturn(Chart())
     }
 }
