@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.example.danielhorowitz.bitcoin.R
 import com.example.danielhorowitz.bitcoin.domain.model.Chart
 import dagger.android.AndroidInjection
+import kotlinx.android.synthetic.main.activity_charts.*
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.design.indefiniteSnackbar
 import javax.inject.Inject
@@ -13,8 +14,14 @@ class ChartsActivity : Activity(), ChartsContract.View {
     @Inject
     lateinit var presenter: ChartsContract.Presenter
 
-    override fun showCharts(charts: List<Chart>) {
+    private var adapter: ChartsAdapter? = null
+    private val charts = mutableListOf<Chart>()
 
+    override fun showCharts(charts: List<Chart>) {
+        this.charts.clear()
+
+        this.charts.addAll(charts)
+        adapter?.notifyDataSetChanged()
     }
 
     override fun showError(throwable: Throwable, tag: String, message: Int) {
@@ -22,17 +29,23 @@ class ChartsActivity : Activity(), ChartsContract.View {
     }
 
     override fun showLoading() {
-
+        swipeRefreshLayout.isRefreshing = true
     }
 
     override fun hideLoading() {
+        swipeRefreshLayout.isRefreshing = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
+        setContentView(R.layout.activity_charts)
 
         presenter.fetchPopularCharts()
+
+        adapter = ChartsAdapter(charts) { presenter.onChartClicked(it) }
+        recyclerView.adapter = adapter
+        swipeRefreshLayout.setOnRefreshListener { presenter.fetchPopularCharts() }
     }
 
     override fun onDestroy() {

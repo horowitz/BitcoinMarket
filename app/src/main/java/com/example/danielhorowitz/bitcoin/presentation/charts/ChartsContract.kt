@@ -11,5 +11,6 @@ interface ChartsContract{
     }
     interface Presenter: BasePresenter{
         fun fetchPopularCharts()
+        fun onChartClicked(chart: Chart)
     }
 }
