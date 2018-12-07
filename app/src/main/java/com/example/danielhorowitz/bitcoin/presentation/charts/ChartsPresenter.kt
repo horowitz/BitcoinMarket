@@ -16,7 +16,7 @@ class ChartsPresenter(
 ) : RxPresenter(observeOn, subscribeOn), ChartsContract.Presenter {
 
     override fun onChartClicked(chart: Chart) {
-
+        navigator.navigateToChartDetails(chart)
     }
 
     override fun fetchPopularCharts() {
