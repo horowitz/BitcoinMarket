@@ -6,6 +6,8 @@ import com.example.danielhorowitz.bitcoin.data.repository.ChartsRepository
 import com.example.danielhorowitz.bitcoin.di.PerActivity
 import com.example.danielhorowitz.bitcoin.domain.charts.ChartsInteractor
 import com.example.danielhorowitz.bitcoin.domain.charts.ChartsInteractorImpl
+import com.example.danielhorowitz.bitcoin.domain.mapper.BlockchainChartMapper
+import com.example.danielhorowitz.bitcoin.domain.mapper.ChartMapper
 import com.example.danielhorowitz.bitcoin.presentation.charts.ChartsActivity
 import com.example.danielhorowitz.bitcoin.presentation.charts.ChartsContract
 import com.example.danielhorowitz.bitcoin.presentation.charts.ChartsPresenter
@@ -31,16 +33,24 @@ abstract class ChartsModule {
         @Provides
         @PerActivity
         @JvmStatic
-        internal fun provideInteractor(chartsRepository: ChartsRepository): ChartsInteractor = ChartsInteractorImpl(chartsRepository)
+        internal fun provideMapper(): ChartMapper = BlockchainChartMapper()
 
         @Provides
         @PerActivity
         @JvmStatic
-        internal fun providePresenter(view: ChartsContract.View,
-                                      navigator: Navigator,
-                                      interactor: ChartsInteractor,
-                                      @Named("observeOn") observeOn: Scheduler,
-                                      @Named("subscribeOn") subscribeOn: Scheduler): ChartsContract.Presenter =
+        internal fun provideInteractor(chartsRepository: ChartsRepository, chartMapper: ChartMapper): ChartsInteractor =
+            ChartsInteractorImpl(chartsRepository, chartMapper)
+
+        @Provides
+        @PerActivity
+        @JvmStatic
+        internal fun providePresenter(
+            view: ChartsContract.View,
+            navigator: Navigator,
+            interactor: ChartsInteractor,
+            @Named("observeOn") observeOn: Scheduler,
+            @Named("subscribeOn") subscribeOn: Scheduler
+        ): ChartsContract.Presenter =
             ChartsPresenter(
                 view,
                 interactor,
