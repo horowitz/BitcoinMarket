@@ -11,6 +11,8 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import kotlinx.android.synthetic.main.chart_view.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class ChartView @JvmOverloads constructor(
@@ -30,13 +32,23 @@ class ChartView @JvmOverloads constructor(
         dataSet.setDrawCircles(false)
         lineChart.data = LineData(dataSet)
         if (isMinimal) setupChartToMinimal()
+        formatXAxis()
         setDescription(chart)
+    }
+
+    private fun formatXAxis() {
+        lineChart.xAxis.setValueFormatter { value, _ -> formatValueToDate(value * 1000) }
+    }
+
+    private fun formatValueToDate(value: Float): String {
+        val date = Date(value.toLong())
+        val simpleDateFormatter = SimpleDateFormat("dd.MMM", Locale.getDefault())
+        return simpleDateFormatter.format(date)
     }
 
     private fun setupChartToMinimal() {
         lineChart.isFocusableInTouchMode = false
         lineChart.setTouchEnabled(false)
-        lineChart.xAxis.setDrawLabels(false)
         lineChart.isDoubleTapToZoomEnabled = false
         lineChart.isHighlightPerTapEnabled = false
         lineChart.setPinchZoom(false)
