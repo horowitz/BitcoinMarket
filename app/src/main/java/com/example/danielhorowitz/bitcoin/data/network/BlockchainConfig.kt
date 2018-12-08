@@ -15,6 +15,7 @@ class BlockchainConfig {
         const val FORMAT = "format"
 
         object Values {
+            const val YEAR = "year"
             const val WEEK = "weeks"
             const val HOURS = "hours"
             const val JSON_FORMAT = "json"

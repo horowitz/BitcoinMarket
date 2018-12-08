@@ -22,9 +22,7 @@ class ChartsPresenter(
     override fun fetchPopularCharts() {
         view.showLoading()
 
-        val timesSpan = "5${BlockchainConfig.Params.Values.WEEK}"
-        val rollingAvg = "8${BlockchainConfig.Params.Values.HOURS}"
-        disposable = interactor.fetchPopularCharts(timesSpan, rollingAvg)
+        disposable = interactor.fetchPopularCharts()
             .observeOn(observeOn)
             .subscribeOn(subscribeOn)
             .subscribe({ charts ->

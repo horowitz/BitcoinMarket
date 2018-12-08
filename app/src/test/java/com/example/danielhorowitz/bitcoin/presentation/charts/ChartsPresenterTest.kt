@@ -32,6 +32,14 @@ class ChartsPresenterTest {
     }
 
     @Test
+    fun `should navigate to details when chart clicked`() {
+        val chart = Chart()
+        presenter.onChartClicked(chart)
+
+        verify(navigator).navigateToChartDetails(chart)
+    }
+
+    @Test
     fun `should show charts given popular charts fetched successfully `() {
         val charts = listOf(Chart())
         givenChartsFetched(charts)
@@ -70,10 +78,10 @@ class ChartsPresenterTest {
     }
 
     private fun givenChartsFetchFails(exception: Exception) {
-        whenever(interactor.fetchPopularCharts(any(), any())).thenReturn(Single.error(exception))
+        whenever(interactor.fetchPopularCharts()).thenReturn(Single.error(exception))
     }
 
     private fun givenChartsFetched(charts: List<Chart>) {
-        whenever(interactor.fetchPopularCharts(any(), any())).thenReturn(Single.just(charts))
+        whenever(interactor.fetchPopularCharts()).thenReturn(Single.just(charts))
     }
 }

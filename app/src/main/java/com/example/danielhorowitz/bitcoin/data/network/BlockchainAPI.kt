@@ -11,7 +11,7 @@ interface BlockchainAPI {
     fun fetchChart(
         @Path(BlockchainConfig.Path.CHART_NAME) name: String,
         @Query(BlockchainConfig.Params.FORMAT) format: String,
-        @Query(BlockchainConfig.Params.ROLLING_AVERAGE) rollingAverage: String,
-        @Query(BlockchainConfig.Params.TIMESPAN) timeSpan: String
+        @Query(BlockchainConfig.Params.ROLLING_AVERAGE) rollingAverage: String? = null,
+        @Query(BlockchainConfig.Params.TIMESPAN) timeSpan: String? = null
     ): Single<BlockchainChartDTO>
 }

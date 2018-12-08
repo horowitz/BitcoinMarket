@@ -8,20 +8,20 @@ import io.reactivex.Single
 import io.reactivex.functions.Function4
 
 interface ChartsInteractor {
-    fun fetchPopularCharts(timeSpan: String, rollingAvg: String): Single<List<Chart>>
-    fun fetchChart(name: String, timeSpan: String, rollingAvg: String): Single<Chart>
+    fun fetchPopularCharts(): Single<List<Chart>>
+    fun fetchChart(name: String, timeSpan: String? = null, rollingAvg: String? = null): Single<Chart>
 }
 
 class ChartsInteractorImpl(
     private val chartsRepository: ChartsRepository,
     private val chartMapper: ChartMapper
 ) : ChartsInteractor {
-    override fun fetchPopularCharts(timeSpan: String, rollingAvg: String): Single<List<Chart>> {
-        val avgBlockSizeObs = buildChartObservable(BlockchainConfig.Charts.AVG_BLOCK_SIZE, timeSpan, rollingAvg)
-        val memPoolObs = buildChartObservable(BlockchainConfig.Charts.MEMPOOL_SIZE, timeSpan, rollingAvg)
-        val marketPriceObs = buildChartObservable(BlockchainConfig.Charts.MARKET_PRICE, timeSpan, rollingAvg)
+    override fun fetchPopularCharts(): Single<List<Chart>> {
+        val avgBlockSizeObs = buildChartObservable(BlockchainConfig.Charts.AVG_BLOCK_SIZE)
+        val memPoolObs = buildChartObservable(BlockchainConfig.Charts.MEMPOOL_SIZE)
+        val marketPriceObs = buildChartObservable(BlockchainConfig.Charts.MARKET_PRICE)
         val transactionPerSecondObs =
-            buildChartObservable(BlockchainConfig.Charts.TRANSACTION_PER_SECOND, timeSpan, rollingAvg)
+            buildChartObservable(BlockchainConfig.Charts.TRANSACTION_PER_SECOND)
 
         return Single.zip(
             avgBlockSizeObs,
@@ -32,12 +32,12 @@ class ChartsInteractorImpl(
         )
     }
 
-    override fun fetchChart(name: String, timeSpan: String, rollingAvg: String): Single<Chart> =
+    override fun fetchChart(name: String, timeSpan: String?, rollingAvg: String?): Single<Chart> =
         buildChartObservable(name, timeSpan, rollingAvg)
 
     private fun buildChartObservable(
         name: String,
-        timeSpan: String,
-        rollingAvg: String
+        timeSpan: String? = null,
+        rollingAvg: String? = null
     ) = chartsRepository.fetchChart(name, timeSpan, rollingAvg).map { chartMapper.mapBlockchainChart(it) }
 }
