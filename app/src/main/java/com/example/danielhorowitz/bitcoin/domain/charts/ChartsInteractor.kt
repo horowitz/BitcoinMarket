@@ -33,11 +33,8 @@ class ChartsInteractorImpl(
     }
 
     override fun fetchChart(name: String, timeSpan: String?, rollingAvg: String?): Single<Chart> =
-        buildChartObservable(name, timeSpan, rollingAvg)
+        buildChartObservable(name)
 
-    private fun buildChartObservable(
-        name: String,
-        timeSpan: String? = null,
-        rollingAvg: String? = null
-    ) = chartsRepository.fetchChart(name, timeSpan, rollingAvg).map { chartMapper.mapBlockchainChart(it) }
+    private fun buildChartObservable(name: String) =
+        chartsRepository.fetchChart(name).map { chartMapper.mapBlockchainChart(it) }
 }

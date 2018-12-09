@@ -44,23 +44,13 @@ class ChartsActivity : Activity(), ChartsContract.View {
         AndroidInjection.inject(this)
         setContentView(R.layout.activity_charts)
         setupRecycler()
-        val extraCharts = readExtraCharts(savedInstanceState)
-        extraCharts?.let { showCharts(it) } ?: run { presenter.fetchPopularCharts() }
-
+        presenter.fetchPopularCharts()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         presenter.destroy()
     }
-
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
-        outState?.putParcelableArrayList(Navigator.CHART_EXTRA, ArrayList(charts))
-    }
-
-    private fun readExtraCharts(savedInstanceState: Bundle?): List<Chart>? =
-        savedInstanceState?.getParcelableArrayList(Navigator.CHART_EXTRA)
 
     private fun setupRecycler() {
         adapter = ChartsAdapter(charts) { presenter.onChartClicked(it) }

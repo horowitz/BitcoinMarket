@@ -7,6 +7,7 @@ import com.example.danielhorowitz.bitcoin.domain.model.Chart
 import com.example.danielhorowitz.bitcoin.fromJson
 import com.example.danielhorowitz.bitcoin.getResource
 import com.nhaarman.mockito_kotlin.any
+import com.nhaarman.mockito_kotlin.anyOrNull
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Single
 import org.junit.Before
@@ -36,14 +37,14 @@ class ChartsInteractorImplTest {
         givenChartMappedCorrectly()
         givenChartRetrieved()
 
-        interactor.fetchChart("name", "timespan", "rollingAvg")
+        interactor.fetchPopularCharts()
             .test()
             .assertNoErrors()
             .assertComplete()
     }
 
     private fun givenChartRetrieved() {
-        whenever(repository.fetchChart(any(), any(), any())).thenReturn(Single.just(chartDTO))
+        whenever(repository.fetchChart(any(), anyOrNull(), anyOrNull())).thenReturn(Single.just(chartDTO))
     }
 
     private fun givenChartMappedCorrectly() {
