@@ -33,18 +33,21 @@ class ChartsInteractorImplTest {
     }
 
     @Test
-    fun `should return chart data given chart retrieve successfully`() {
+    fun `should return popular charts data given retrieval and map successful`() {
         givenChartMappedCorrectly()
         givenChartRetrieved()
 
-        interactor.fetchPopularCharts()
+        val popularCharts = interactor.fetchPopularCharts()
             .test()
             .assertNoErrors()
             .assertComplete()
+            .values().first()
+
+        assert(popularCharts.size == 4)
     }
 
     private fun givenChartRetrieved() {
-        whenever(repository.fetchChart(any(), anyOrNull(), anyOrNull())).thenReturn(Single.just(chartDTO))
+        whenever(repository.fetchChart(any())).thenReturn(Single.just(chartDTO))
     }
 
     private fun givenChartMappedCorrectly() {
