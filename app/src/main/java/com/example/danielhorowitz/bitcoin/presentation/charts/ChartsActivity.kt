@@ -2,6 +2,7 @@ package com.example.danielhorowitz.bitcoin.presentation.charts
 
 import android.app.Activity
 import android.os.Bundle
+import com.example.danielhorowitz.bitcoin.Navigator
 import com.example.danielhorowitz.bitcoin.R
 import com.example.danielhorowitz.bitcoin.domain.model.Chart
 import com.example.danielhorowitz.bitcoin.presentation.common.EqualSpacingItemDecoration
@@ -43,13 +44,23 @@ class ChartsActivity : Activity(), ChartsContract.View {
         AndroidInjection.inject(this)
         setContentView(R.layout.activity_charts)
         setupRecycler()
-        presenter.fetchPopularCharts()
+        val extraCharts = readExtraCharts(savedInstanceState)
+        extraCharts?.let { showCharts(it) } ?: run { presenter.fetchPopularCharts() }
+
     }
 
     override fun onDestroy() {
         super.onDestroy()
         presenter.destroy()
     }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putParcelableArrayList(Navigator.CHART_EXTRA, ArrayList(charts))
+    }
+
+    private fun readExtraCharts(savedInstanceState: Bundle?): List<Chart>? =
+        savedInstanceState?.getParcelableArrayList(Navigator.CHART_EXTRA)
 
     private fun setupRecycler() {
         adapter = ChartsAdapter(charts) { presenter.onChartClicked(it) }
