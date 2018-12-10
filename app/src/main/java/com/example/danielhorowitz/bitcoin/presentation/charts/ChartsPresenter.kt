@@ -6,6 +6,7 @@ import com.example.danielhorowitz.bitcoin.domain.charts.ChartsInteractor
 import com.example.danielhorowitz.bitcoin.domain.model.Chart
 import com.example.danielhorowitz.bitcoin.presentation.common.RxPresenter
 import io.reactivex.Scheduler
+import io.reactivex.rxkotlin.subscribeBy
 
 class ChartsPresenter(
     private val view: ChartsContract.View,
@@ -25,14 +26,15 @@ class ChartsPresenter(
         disposable = interactor.fetchPopularCharts()
             .observeOn(observeOn)
             .subscribeOn(subscribeOn)
-            .subscribe({ charts ->
-                view.hideLoading()
-                view.showCharts(charts)
-            }, { error ->
-                view.hideLoading()
-                view.showError(error)
-            })
+            .subscribeBy(
+                onSuccess = { charts ->
+                    view.hideLoading()
+                    view.showCharts(charts)
+                },
+                onError = { error ->
+                    view.hideLoading()
+                    view.showError(error)
+                }
+            )
     }
-
-
 }
