@@ -10,14 +10,9 @@ class BlockchainConfig {
     }
 
     object Params {
-        const val TIMESPAN = "timespan"
-        const val ROLLING_AVERAGE = "rollingAverage"
         const val FORMAT = "format"
 
         object Values {
-            const val YEAR = "year"
-            const val WEEK = "weeks"
-            const val HOURS = "hours"
             const val JSON_FORMAT = "json"
         }
     }

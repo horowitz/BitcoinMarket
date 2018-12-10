@@ -2,7 +2,6 @@ package com.example.danielhorowitz.bitcoin.presentation.charts
 
 import android.app.Activity
 import android.os.Bundle
-import com.example.danielhorowitz.bitcoin.Navigator
 import com.example.danielhorowitz.bitcoin.R
 import com.example.danielhorowitz.bitcoin.domain.model.Chart
 import com.example.danielhorowitz.bitcoin.presentation.common.EqualSpacingItemDecoration

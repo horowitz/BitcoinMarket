@@ -3,7 +3,6 @@ package com.example.danielhorowitz.bitcoin.presentation.charts
 import com.example.danielhorowitz.bitcoin.Navigator
 import com.example.danielhorowitz.bitcoin.domain.charts.ChartsInteractor
 import com.example.danielhorowitz.bitcoin.domain.model.Chart
-import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Single

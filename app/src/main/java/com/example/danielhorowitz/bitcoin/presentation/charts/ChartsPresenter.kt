@@ -1,7 +1,6 @@
 package com.example.danielhorowitz.bitcoin.presentation.charts
 
 import com.example.danielhorowitz.bitcoin.Navigator
-import com.example.danielhorowitz.bitcoin.data.network.BlockchainConfig
 import com.example.danielhorowitz.bitcoin.domain.charts.ChartsInteractor
 import com.example.danielhorowitz.bitcoin.domain.model.Chart
 import com.example.danielhorowitz.bitcoin.presentation.common.RxPresenter
