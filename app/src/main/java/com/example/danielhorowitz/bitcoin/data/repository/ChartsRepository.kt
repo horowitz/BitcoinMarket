@@ -2,19 +2,8 @@ package com.example.danielhorowitz.bitcoin.data.repository
 
 import com.example.danielhorowitz.bitcoin.data.model.BlockchainChartDTO
 import com.example.danielhorowitz.bitcoin.data.network.BlockchainAPI
-import com.example.danielhorowitz.bitcoin.data.network.BlockchainConfig
-import io.reactivex.Single
+import javax.inject.Inject
 
-interface ChartsRepository {
-    fun fetchChart(name: String): Single<BlockchainChartDTO>
-}
-
-class BlockchainChartRepository(private val blockchainAPI: BlockchainAPI) : ChartsRepository {
-
-    override fun fetchChart(name: String): Single<BlockchainChartDTO> {
-        return blockchainAPI.fetchChart(
-            name,
-            BlockchainConfig.Params.Values.JSON_FORMAT
-        )
-    }
+class BlockchainChartNetworkDataSource @Inject constructor(private val blockchainAPI: BlockchainAPI) {
+    suspend fun fetchChart(name: String): BlockchainChartDTO = blockchainAPI.fetchChart(name)
 }

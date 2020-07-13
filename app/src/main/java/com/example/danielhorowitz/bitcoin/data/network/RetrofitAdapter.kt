@@ -21,7 +21,6 @@ object RetrofitAdapter {
             this.blockchainRetrofit = Retrofit.Builder()
                 .baseUrl(BlockchainConfig.BASE_URL)
                 .client(client)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         }

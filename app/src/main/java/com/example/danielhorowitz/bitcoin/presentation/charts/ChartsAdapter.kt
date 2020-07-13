@@ -1,34 +1,42 @@
 package com.example.danielhorowitz.bitcoin.presentation.charts
 
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.example.danielhorowitz.bitcoin.R
 import com.example.danielhorowitz.bitcoin.domain.model.Chart
-import com.example.danielhorowitz.bitcoin.presentation.common.ChartView
-import org.jetbrains.anko.sdk27.coroutines.onClick
+import kotlinx.android.synthetic.main.chart_item.view.*
 
 class ChartsAdapter(
-    private val items: List<Chart>,
     private val itemClicked: (Chart) -> Unit
-) : RecyclerView.Adapter<ChartsAdapter.ViewHolder>() {
+) : ListAdapter<Chart, ChartsAdapter.ItemViewholder>(DiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-        ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.chart_item, parent, false))
-
-    override fun getItemCount(): Int = items.size
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position], itemClicked)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewholder {
+        return ItemViewholder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.chart_item, parent, false)
+        )
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val chartView = itemView.findViewById<ChartView>(R.id.chartView)
+    override fun onBindViewHolder(holder: ItemViewholder, position: Int) {
+        holder.bind(getItem(position))
+    }
 
-        fun bind(chart: Chart, itemClicked: (Chart) -> Unit) {
-            chartView.bind(chart,true)
-            itemView.onClick { itemClicked(chart) }
+    inner class ItemViewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun bind(item: Chart) = with(itemView) {
+            chartView.bind(item, true)
+
+            setOnClickListener { itemClicked(item) }
         }
     }
+}
+
+class DiffCallback : DiffUtil.ItemCallback<Chart>() {
+    override fun areItemsTheSame(oldItem: Chart, newItem: Chart): Boolean =
+        oldItem.name == newItem.name
+
+    override fun areContentsTheSame(oldItem: Chart, newItem: Chart): Boolean = oldItem == newItem
 }
