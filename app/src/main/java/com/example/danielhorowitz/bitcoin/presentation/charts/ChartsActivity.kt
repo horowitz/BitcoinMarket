@@ -5,14 +5,14 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.observe
 import com.example.danielhorowitz.bitcoin.R
-import com.example.danielhorowitz.bitcoin.domain.model.Chart
-import com.example.danielhorowitz.bitcoin.presentation.charts.ChartsActions.ChartClicked
-import com.example.danielhorowitz.bitcoin.presentation.charts.ChartsActions.Start
+import com.example.danielhorowitz.bitcoin.presentation.addEqualSpacingBetweenItems
+import com.example.danielhorowitz.bitcoin.presentation.charts.ChartsActions.*
+import com.example.danielhorowitz.bitcoin.presentation.charts.ChartsEvent.Navigate
 import com.example.danielhorowitz.bitcoin.presentation.charts.ChartsState.*
-import com.example.danielhorowitz.bitcoin.presentation.common.EqualSpacingItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_charts.*
-import org.jetbrains.anko.dimen
+import org.jetbrains.anko.contentView
+import org.jetbrains.anko.design.indefiniteSnackbar
 
 @AndroidEntryPoint
 class ChartsActivity : AppCompatActivity(R.layout.activity_charts) {
@@ -24,30 +24,31 @@ class ChartsActivity : AppCompatActivity(R.layout.activity_charts) {
         setupRecycler()
 
         viewModel.state.observe(this, ::render)
+        viewModel.event.observe(this, ::handleEvent)
 
         viewModel.handle(Start)
     }
 
+    private fun handleEvent(event: ChartsEvent): Nothing = when (event) {
+        is Navigate -> TODO()
+    }
+
     private fun render(state: ChartsState) = when (state) {
         Loading -> swipeRefreshLayout.isRefreshing = true
-        is Content -> hideLoading().also { renderContent(state.charts) }
-        is Error -> hideLoading().also { showError(state.error) }
+        is Content -> hideLoading().also { adapter.submitList(state.charts) }
+        is Error -> hideLoading().also { showError() }
     }
 
-    private fun renderContent(charts: List<Chart>) {
-        swipeRefreshLayout.isRefreshing = false
-
-        adapter.submitList(charts)
-    }
-
-    private fun showError(error: Throwable) {
-
+    private fun showError() {
+        contentView?.indefiniteSnackbar(R.string.unexpected_error, R.string.retry) {
+            viewModel.handle(Refresh)
+        }
     }
 
     private fun setupRecycler() {
         recyclerView.adapter = adapter
-        recyclerView.addItemDecoration(EqualSpacingItemDecoration(dimen(R.dimen.default_spacing)))
-        swipeRefreshLayout.setOnRefreshListener { }
+        recyclerView.addEqualSpacingBetweenItems()
+        swipeRefreshLayout.setOnRefreshListener { viewModel.handle(Refresh) }
     }
 
     private fun hideLoading() {
