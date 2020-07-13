@@ -7,8 +7,9 @@ import androidx.lifecycle.observe
 import com.example.danielhorowitz.bitcoin.R
 import com.example.danielhorowitz.bitcoin.presentation.addEqualSpacingBetweenItems
 import com.example.danielhorowitz.bitcoin.presentation.charts.ChartsActions.*
-import com.example.danielhorowitz.bitcoin.presentation.charts.ChartsEvent.Navigate
+import com.example.danielhorowitz.bitcoin.presentation.charts.ChartsEvent.NavigateToDetails
 import com.example.danielhorowitz.bitcoin.presentation.charts.ChartsState.*
+import com.example.danielhorowitz.bitcoin.presentation.details.ChartDetailsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_charts.*
 import org.jetbrains.anko.contentView
@@ -29,8 +30,8 @@ class ChartsActivity : AppCompatActivity(R.layout.activity_charts) {
         viewModel.handle(Start)
     }
 
-    private fun handleEvent(event: ChartsEvent): Nothing = when (event) {
-        is Navigate -> TODO()
+    private fun handleEvent(event: ChartsEvent) = when (event) {
+        is NavigateToDetails -> startActivity(ChartDetailsActivity.newIntent(this, event.chart))
     }
 
     private fun render(state: ChartsState) = when (state) {

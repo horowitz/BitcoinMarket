@@ -1,6 +1,5 @@
 package com.example.danielhorowitz.bitcoin.presentation.charts
 
-import androidx.annotation.IdRes
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,6 +9,7 @@ import com.example.danielhorowitz.bitcoin.SingleLiveEvent
 import com.example.danielhorowitz.bitcoin.domain.charts.FetchPopularCharts
 import com.example.danielhorowitz.bitcoin.domain.model.Chart
 import com.example.danielhorowitz.bitcoin.presentation.charts.ChartsActions.*
+import com.example.danielhorowitz.bitcoin.presentation.charts.ChartsEvent.*
 import com.example.danielhorowitz.bitcoin.presentation.charts.ChartsState.*
 import kotlinx.coroutines.launch
 
@@ -28,7 +28,7 @@ internal class ChartsViewModel @ViewModelInject constructor(
     }
 
     private fun handleChartClicked(chart: Chart) {
-
+        mutableViewEvent.value = NavigateToDetails(chart)
     }
 
     private fun loadContent() {
@@ -43,7 +43,7 @@ internal class ChartsViewModel @ViewModelInject constructor(
 }
 
 internal sealed class ChartsEvent {
-    data class Navigate(@IdRes val destination: Int): ChartsEvent()
+    data class NavigateToDetails(val chart: Chart): ChartsEvent()
 }
 
 internal sealed class ChartsActions {
