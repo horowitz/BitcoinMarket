@@ -2,47 +2,47 @@ package com.example.danielhorowitz.bitcoin.di.charts
 
 import android.app.Activity
 import com.example.danielhorowitz.bitcoin.Navigator
+import com.example.danielhorowitz.bitcoin.NavigatorImpl
 import com.example.danielhorowitz.bitcoin.data.repository.ChartsRepository
-import com.example.danielhorowitz.bitcoin.di.PerActivity
 import com.example.danielhorowitz.bitcoin.domain.charts.ChartsInteractor
 import com.example.danielhorowitz.bitcoin.domain.charts.ChartsInteractorImpl
 import com.example.danielhorowitz.bitcoin.domain.mapper.BlockchainChartMapper
 import com.example.danielhorowitz.bitcoin.domain.mapper.ChartMapper
-import com.example.danielhorowitz.bitcoin.presentation.charts.ChartsActivity
 import com.example.danielhorowitz.bitcoin.presentation.charts.ChartsContract
 import com.example.danielhorowitz.bitcoin.presentation.charts.ChartsPresenter
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
 import io.reactivex.Scheduler
 import javax.inject.Named
 
 
 @Module
+@InstallIn(ActivityComponent::class)
 abstract class ChartsModule {
-    @Binds
-    @PerActivity
-    internal abstract fun provideView(activity: ChartsActivity): ChartsContract.View
-
-    @Binds
-    @PerActivity
-    internal abstract fun provideActivity(activity: ChartsActivity): Activity
-
-    @Module
     companion object {
         @Provides
-        @PerActivity
+        internal fun provideView(activity: Activity): ChartsContract.View = activity as ChartsContract.View
+
+        @Provides
         @JvmStatic
         internal fun provideMapper(): ChartMapper = BlockchainChartMapper()
 
         @Provides
-        @PerActivity
         @JvmStatic
-        internal fun provideInteractor(chartsRepository: ChartsRepository, chartMapper: ChartMapper): ChartsInteractor =
+        internal fun provideNavigator(activity: Activity): Navigator = NavigatorImpl(activity)
+
+        @Provides
+        @JvmStatic
+        internal fun provideInteractor(
+            chartsRepository: ChartsRepository,
+            chartMapper: ChartMapper
+        ): ChartsInteractor =
             ChartsInteractorImpl(chartsRepository, chartMapper)
 
         @Provides
-        @PerActivity
         @JvmStatic
         internal fun providePresenter(
             view: ChartsContract.View,
@@ -59,4 +59,5 @@ abstract class ChartsModule {
                 subscribeOn
             )
     }
+
 }

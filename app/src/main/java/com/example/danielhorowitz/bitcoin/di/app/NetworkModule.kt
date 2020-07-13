@@ -6,8 +6,11 @@ import com.example.danielhorowitz.bitcoin.data.repository.BlockchainChartReposit
 import com.example.danielhorowitz.bitcoin.data.repository.ChartsRepository
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 
 @Module
+@InstallIn(ApplicationComponent::class)
 class NetworkModule {
     @Provides
     fun provideChartsRepository(): ChartsRepository = BlockchainChartRepository(

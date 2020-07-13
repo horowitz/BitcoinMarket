@@ -18,7 +18,7 @@ class ChartDetailsActivity: Activity(){
         )
 
         setContentView(R.layout.activity_chart_details)
-        val chart = intent.getParcelableExtra<Chart>(Navigator.CHART_EXTRA)
+        val chart = intent.getParcelableExtra<Chart>(Navigator.CHART_EXTRA)!!
 
         chartView.bind(chart)
     }

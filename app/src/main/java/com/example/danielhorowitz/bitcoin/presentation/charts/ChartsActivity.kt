@@ -2,17 +2,19 @@ package com.example.danielhorowitz.bitcoin.presentation.charts
 
 import android.app.Activity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.danielhorowitz.bitcoin.R
 import com.example.danielhorowitz.bitcoin.domain.model.Chart
 import com.example.danielhorowitz.bitcoin.presentation.common.EqualSpacingItemDecoration
-import dagger.android.AndroidInjection
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_charts.*
 import org.jetbrains.anko.contentView
 import org.jetbrains.anko.design.indefiniteSnackbar
 import org.jetbrains.anko.dimen
 import javax.inject.Inject
 
-class ChartsActivity : Activity(), ChartsContract.View {
+@AndroidEntryPoint
+class ChartsActivity : AppCompatActivity(), ChartsContract.View {
     @Inject
     lateinit var presenter: ChartsContract.Presenter
 
@@ -40,7 +42,6 @@ class ChartsActivity : Activity(), ChartsContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AndroidInjection.inject(this)
         setContentView(R.layout.activity_charts)
         setupRecycler()
         presenter.fetchPopularCharts()
