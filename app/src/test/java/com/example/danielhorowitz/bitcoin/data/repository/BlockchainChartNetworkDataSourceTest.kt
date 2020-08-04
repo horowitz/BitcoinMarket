@@ -5,7 +5,6 @@ import com.example.danielhorowitz.bitcoin.data.network.BlockchainAPI
 import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okio.buffer
@@ -21,7 +20,6 @@ import java.nio.charset.StandardCharsets
 internal class BlockchainChartNetworkDataSourceTest {
     private lateinit var mockWebServer: MockWebServer
     private lateinit var dataSource: BlockchainChartNetworkDataSource
-    private val testDispatcher = TestCoroutineDispatcher()
 
     @Before
     fun setUp() {

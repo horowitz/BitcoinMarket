@@ -1,9 +1,20 @@
 # BitcoinMarket
-This project contains an example of VIPER and Clean Architecture using the Blockchain API.
+This project contains an example of what I believe to be a good design for an Android project.
 
-Project dependencies
-* Dagger Android - for dependency injection
+* Unidirectional data flow
+* Single entry point for MVVM implementation
+* Views are represented by states
+* Flexible clean architecture & Solid patterns
+* Fully tested implementations (Unit + Integration tests)
+
+## Automation and Observability
+* Github actions
+* Sonarqube
+* Codacy
+* Jacoco
+
+##  Project dependencies
+* Dagger Hilt - for dependency injection
 * Retrofit - For http connections
-* Rxjava2/RxKotlin - For hadling complex tasks and threads
-* Anko - For some syntatic sugar when creating snackbars for example
+* Coroutines - For hadling async tasks
 * MPAndroidChart - For plotting charts
