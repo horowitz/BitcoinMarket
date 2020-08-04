@@ -8,27 +8,29 @@ import androidx.lifecycle.viewModelScope
 import com.example.danielhorowitz.bitcoin.SingleLiveEvent
 import com.example.danielhorowitz.bitcoin.domain.charts.FetchPopularCharts
 import com.example.danielhorowitz.bitcoin.domain.model.Chart
-import com.example.danielhorowitz.bitcoin.presentation.charts.ChartsActions.*
-import com.example.danielhorowitz.bitcoin.presentation.charts.ChartsEvent.*
-import com.example.danielhorowitz.bitcoin.presentation.charts.ChartsState.*
+import com.example.danielhorowitz.bitcoin.presentation.model.ChartsActions
+import com.example.danielhorowitz.bitcoin.presentation.model.ChartsActions.*
+import com.example.danielhorowitz.bitcoin.presentation.model.ChartsEvent
+import com.example.danielhorowitz.bitcoin.presentation.model.ChartsState
+import com.example.danielhorowitz.bitcoin.presentation.model.ChartsState.*
 import kotlinx.coroutines.launch
 
 internal class ChartsViewModel @ViewModelInject constructor(
     private val fetchPopularCharts: FetchPopularCharts
 ) : ViewModel() {
     private val mutableViewState = MutableLiveData<ChartsState>()
-    val state: LiveData<ChartsState> get() = mutableViewState
+    val state: LiveData<ChartsState> = mutableViewState
 
     private val mutableViewEvent = SingleLiveEvent<ChartsEvent>()
-    val event: LiveData<ChartsEvent> get() = mutableViewEvent
+    val event: LiveData<ChartsEvent> = mutableViewEvent
 
     fun handle(action: ChartsActions) = when (action) {
         Start, Refresh -> loadContent()
-        is ChartClicked -> handleChartClicked(action.item)
+        is ChartClicked -> onChartClicked(action.item)
     }
 
-    private fun handleChartClicked(chart: Chart) {
-        mutableViewEvent.value = NavigateToDetails(chart)
+    private fun onChartClicked(chart: Chart) {
+        mutableViewEvent.value = ChartsEvent.NavigateToDetails(chart)
     }
 
     private fun loadContent() {
@@ -40,20 +42,4 @@ internal class ChartsViewModel @ViewModelInject constructor(
                 .onFailure { mutableViewState.value = Error }
         }
     }
-}
-
-internal sealed class ChartsEvent {
-    data class NavigateToDetails(val chart: Chart): ChartsEvent()
-}
-
-internal sealed class ChartsActions {
-    object Start : ChartsActions()
-    object Refresh : ChartsActions()
-    data class ChartClicked(val item: Chart) : ChartsActions()
-}
-
-internal sealed class ChartsState {
-    object Loading : ChartsState()
-    object Error : ChartsState()
-    data class Content(val charts: List<Chart>) : ChartsState()
 }
